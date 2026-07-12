@@ -1,0 +1,116 @@
+.assets-page {
+    padding: 30px;
+    background: #f5f6fa;
+    min-height: 100vh;
+}
+
+.assets-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.assets-header h1 {
+    font-size: 32px;
+    color: #222;
+}
+
+.header-right {
+    display: flex;
+    gap: 15px;
+}
+
+.header-right input {
+    width: 320px;
+    padding: 10px 14px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    outline: none;
+}
+
+.register-btn {
+    background: #0f766e;
+    color: white;
+    border: none;
+    padding: 10px 22px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.register-btn:hover {
+    background: #115e59;
+}
+
+.filters {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.filters select {
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    min-width: 180px;
+    background: white;
+}
+
+.table-container {
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 3px 10px rgba(0,0,0,.08);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+thead {
+    background: #1e293b;
+    color: white;
+}
+
+th,
+td {
+    padding: 15px;
+    text-align: left;
+}
+
+tbody tr:nth-child(even) {
+    background: #f9fafb;
+}
+
+tbody tr:hover {
+    background: #eef4ff;
+}
+
+.status {
+    padding: 5px 12px;
+    border-radius: 15px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.available {
+    background: #dcfce7;
+    color: #15803d;
+}
+
+.allocated {
+    background: #dbeafe;
+    color: #1d4ed8;
+}
+
+.maintenance {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+.empty {
+    text-align: center;
+    padding: 40px;
+    color: gray;
+}
