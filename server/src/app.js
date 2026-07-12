@@ -13,7 +13,7 @@ import allocationRoutes from "./routes/allocationRoutes.js";
 import bookingRoutes from "./routes/bookingRoutes.js";
 import maintenanceRoutes from "./routes/maintenanceRoutes.js";
 import auditRoutes from "./routes/auditRoutes.js";
-
+import dashboardRoutes from "./routes/dashboardRoutes.js";
 const app = express();
 
 app.use(cors());
@@ -37,6 +37,7 @@ app.use("/api/allocations", allocationRoutes);
 app.use("/api/bookings", bookingRoutes);
 app.use("/api/maintenances", maintenanceRoutes);
 app.use("/api/audits", auditRoutes);
+app.use("/api/dashboard", dashboardRoutes);
 
 app.use(notFound);
 app.use(errorHandler);
