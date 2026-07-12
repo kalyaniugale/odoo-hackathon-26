@@ -15,9 +15,9 @@ export default function Sidebar() {
           Dashboard
         </NavLink>
 
-        <NavLink to="/departments">
-          Organization Setup
-        </NavLink>
+       <NavLink to="/organization-setup">
+  Organization Setup
+</NavLink>
 
         <NavLink to="/assets">
           Assets

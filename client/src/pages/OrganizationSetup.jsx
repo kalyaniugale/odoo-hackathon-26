@@ -25,6 +25,10 @@ export default function OrganizationSetup() {
   return (
     <div className="org-page">
 
+      <h2 className="page-title">
+        Organization Setup
+      </h2>
+
       <div className="org-top">
 
         <button className="tab active">
@@ -39,7 +43,7 @@ export default function OrganizationSetup() {
           Employees
         </button>
 
-        <button className="add-btn">
+        <button className="success-btn">
           + Add
         </button>
 
@@ -54,7 +58,7 @@ export default function OrganizationSetup() {
             <tr>
               <th>Department</th>
               <th>Head</th>
-              <th>Parent Dept</th>
+              <th>Parent Department</th>
               <th>Status</th>
             </tr>
 
@@ -72,7 +76,6 @@ export default function OrganizationSetup() {
                 <td>{dept.parent}</td>
 
                 <td>
-
                   <span
                     className={
                       dept.status === "Active"
@@ -82,7 +85,6 @@ export default function OrganizationSetup() {
                   >
                     {dept.status}
                   </span>
-
                 </td>
 
               </tr>
@@ -95,8 +97,8 @@ export default function OrganizationSetup() {
       </div>
 
       <div className="note">
-        Editing a department here also drives the picklist in
-        Assets and Allocation modules.
+        Editing a department here automatically updates the department
+        dropdowns used in Assets and Allocation & Transfer modules.
       </div>
 
     </div>
