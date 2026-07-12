@@ -1,0 +1,97 @@
+.allocation-page {
+    padding: 35px;
+    background: #f5f6fa;
+    min-height: 100vh;
+}
+
+.allocation-page h1 {
+    margin-bottom: 25px;
+    color: #1f2937;
+}
+
+form {
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 3px 10px rgba(0,0,0,.08);
+}
+
+label {
+    display: block;
+    margin-top: 18px;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+select,
+textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    outline: none;
+    font-size: 15px;
+}
+
+textarea {
+    resize: vertical;
+}
+
+.warning {
+    margin-top: 15px;
+    background: #fee2e2;
+    color: #991b1b;
+    padding: 12px;
+    border-radius: 8px;
+    border-left: 5px solid red;
+}
+
+button {
+    margin-top: 20px;
+    background: #15803d;
+    color: white;
+    border: none;
+    padding: 12px 28px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #166534;
+}
+
+.history {
+    margin-top: 35px;
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 3px 10px rgba(0,0,0,.08);
+}
+
+.history h2 {
+    margin-bottom: 20px;
+}
+
+.history-card {
+    padding: 15px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.history-card:last-child {
+    border-bottom: none;
+}
+
+.history-card strong {
+    display: block;
+    color: #111827;
+}
+
+.history-card p {
+    margin: 5px 0;
+    color: #374151;
+}
+
+.history-card span {
+    font-size: 13px;
+    color: #6b7280;
+}
