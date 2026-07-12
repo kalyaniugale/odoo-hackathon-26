@@ -1,0 +1,258 @@
+.logs-page {
+  width: 100%;
+  min-height: 100%;
+  background: #ffffff;
+  color: #111111;
+  font-family:
+    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  text-align: left;
+}
+
+.logs-header {
+  border: 1px solid #111111;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+  padding: 24px;
+}
+
+.logs-eyebrow {
+  color: #d71920;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  margin: 0 0 8px;
+  text-transform: uppercase;
+}
+
+.logs-header h1 {
+  color: #111111;
+  font-size: clamp(28px, 4vw, 42px);
+  font-weight: 800;
+  letter-spacing: 0;
+  line-height: 1;
+  margin: 0;
+}
+
+.logs-button {
+  min-height: 38px;
+  border: 1px solid #111111;
+  background: #ffffff;
+  color: #111111;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 13px;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.logs-button--ghost:hover {
+  background: #f5f5f5;
+}
+
+.logs-summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.logs-summary article {
+  min-height: 86px;
+  border: 1px solid #111111;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 14px;
+}
+
+.logs-summary span {
+  color: #444444;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.logs-summary strong {
+  color: #111111;
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.logs-toolbar {
+  border: 1px solid #111111;
+  display: grid;
+  grid-template-columns: minmax(260px, 1fr) 210px 190px;
+  gap: 10px;
+  margin-bottom: 16px;
+  padding: 12px;
+}
+
+.logs-search,
+.logs-select,
+.logs-date {
+  min-height: 40px;
+  border: 1px solid #bbbbbb;
+  display: grid;
+  align-items: center;
+}
+
+.logs-search {
+  grid-template-columns: 36px 1fr;
+}
+
+.logs-date {
+  grid-template-columns: 36px 1fr;
+}
+
+.logs-search svg,
+.logs-select svg,
+.logs-date svg {
+  color: #d71920;
+  justify-self: center;
+}
+
+.logs-search input,
+.logs-select select,
+.logs-date input {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #111111;
+  font: inherit;
+  font-size: 13px;
+  box-sizing: border-box;
+}
+
+.logs-search input,
+.logs-date input {
+  padding: 0 12px 0 0;
+}
+
+.logs-select {
+  position: relative;
+}
+
+.logs-select select {
+  appearance: none;
+  padding: 0 34px 0 12px;
+}
+
+.logs-select svg {
+  pointer-events: none;
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.logs-table-panel {
+  border: 1px solid #111111;
+  background: #ffffff;
+  padding: 18px;
+}
+
+.logs-table-scroll {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.logs-table {
+  width: 100%;
+  min-width: 980px;
+  border-collapse: collapse;
+}
+
+.logs-table th,
+.logs-table td {
+  border-top: 1px solid #dddddd;
+  padding: 14px;
+  vertical-align: middle;
+}
+
+.logs-table th {
+  color: #111111;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.logs-table td {
+  color: #444444;
+  font-size: 13px;
+}
+
+.logs-table td strong,
+.logs-table td span {
+  display: block;
+}
+
+.logs-table td strong {
+  color: #111111;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.logs-table td span {
+  color: #555555;
+  font-size: 12px;
+  margin-top: 3px;
+}
+
+.logs-module-badge {
+  border: 1px solid #111111;
+  color: #111111;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 26px;
+  min-width: 96px;
+  padding: 0 8px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.logs-empty {
+  color: #555555;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 14px 0 0;
+}
+
+@media (max-width: 1040px) {
+  .logs-toolbar {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .logs-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .logs-summary {
+    grid-template-columns: 1fr;
+  }
+
+  .logs-button {
+    width: 100%;
+  }
+}

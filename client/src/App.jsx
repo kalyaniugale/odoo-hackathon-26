@@ -16,7 +16,8 @@ import Booking from "./pages/Booking";
 import Audit from "./pages/Audit";
 import Reports from "./pages/Reports";
 import Notifications from "./pages/Notifications";
-import AdminLayout from "./layouts/AdminLayout";
+import ActivityLogs from "./pages/ActivityLogs";
+import Layout from "./layouts/Layout";
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -44,7 +45,7 @@ function App() {
           <Route path="/reset-password/:token" element={<ResetPassword />} />
 
           <Route element={<ProtectedRoute />}>
-            <Route element={<AdminLayout />}>
+            <Route element={<Layout />}>
               <Route path="/maintenance" element={<Maintenance />} />
 
               <Route path="/dashboard" element={<Dashboard />} />
@@ -66,6 +67,8 @@ function App() {
               <Route path="/reports" element={<Reports />} />
 
               <Route path="/notifications" element={<Notifications />} />
+
+              <Route path="/activity-logs" element={<ActivityLogs />} />
             </Route>
           </Route>
         </Routes>

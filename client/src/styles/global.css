@@ -8,6 +8,9 @@ body{
     font-family:"Segoe UI",sans-serif;
     background:var(--background);
     color:var(--text);
+    width:100vw;
+    min-height:100vh;
+    overflow:hidden;
 }
 
 a{
@@ -26,4 +29,12 @@ textarea{
     background:#fff;
     color:var(--text);
     border:1px solid var(--border);
+}
+
+#root{
+    width:100vw;
+    height:100vh;
+    min-height:100vh;
+    max-width:none;
+    overflow:hidden;
 }
