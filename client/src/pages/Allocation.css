@@ -1,0 +1,350 @@
+.allocation-page {
+  width: 100%;
+  min-height: 100%;
+  background: #ffffff;
+  color: #111111;
+  font-family:
+    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  text-align: left;
+}
+
+.allocation-header {
+  border: 1px solid #111111;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+  padding: 24px;
+}
+
+.allocation-eyebrow {
+  color: #d71920;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  line-height: 1.2;
+  margin: 0 0 8px;
+  text-transform: uppercase;
+}
+
+.allocation-header h1,
+.allocation-history-header h2,
+.allocation-panel h2 {
+  color: #111111;
+  font-weight: 800;
+  letter-spacing: 0;
+  margin: 0;
+}
+
+.allocation-header h1 {
+  font-size: clamp(28px, 4vw, 42px);
+  line-height: 1;
+}
+
+.allocation-button {
+  min-height: 38px;
+  border: 1px solid #111111;
+  background: #ffffff;
+  color: #111111;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 13px;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.allocation-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+.allocation-button--primary {
+  background: #d71920;
+  border-color: #d71920;
+  color: #ffffff;
+}
+
+.allocation-button--ghost:hover {
+  background: #f5f5f5;
+}
+
+.allocation-button--primary:hover {
+  background: #111111;
+  border-color: #111111;
+}
+
+.allocation-summary {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.allocation-summary article {
+  min-height: 86px;
+  border: 1px solid #111111;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 14px;
+}
+
+.allocation-summary span,
+.allocation-field span {
+  color: #444444;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.allocation-summary strong {
+  color: #111111;
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.allocation-actions-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.allocation-panel,
+.allocation-history-panel {
+  border: 1px solid #111111;
+  background: #ffffff;
+  padding: 18px;
+}
+
+.allocation-panel {
+  display: grid;
+  align-content: start;
+  gap: 14px;
+}
+
+.allocation-panel-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+
+.allocation-panel-title svg,
+.allocation-search svg,
+.allocation-select svg {
+  color: #d71920;
+}
+
+.allocation-panel h2,
+.allocation-history-header h2 {
+  font-size: 20px;
+  line-height: 1.1;
+}
+
+.allocation-field {
+  display: grid;
+  gap: 7px;
+}
+
+.allocation-field input,
+.allocation-field textarea,
+.allocation-select select,
+.allocation-search input {
+  width: 100%;
+  border: 1px solid #bbbbbb;
+  background: #ffffff;
+  color: #111111;
+  font: inherit;
+  font-size: 13px;
+  outline: 0;
+  box-sizing: border-box;
+}
+
+.allocation-field input,
+.allocation-select {
+  min-height: 40px;
+}
+
+.allocation-field input,
+.allocation-field textarea {
+  padding: 10px 12px;
+}
+
+.allocation-field textarea {
+  resize: vertical;
+}
+
+.allocation-select {
+  border: 1px solid #bbbbbb;
+  position: relative;
+}
+
+.allocation-select select {
+  height: 100%;
+  border: 0;
+  appearance: none;
+  padding: 0 34px 0 12px;
+}
+
+.allocation-select svg {
+  pointer-events: none;
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.allocation-history-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.allocation-filter-bar {
+  display: flex;
+  gap: 10px;
+}
+
+.allocation-search {
+  width: min(320px, 100%);
+  min-height: 40px;
+  border: 1px solid #bbbbbb;
+  display: grid;
+  grid-template-columns: 36px 1fr;
+  align-items: center;
+}
+
+.allocation-search svg {
+  justify-self: center;
+}
+
+.allocation-search input {
+  height: 100%;
+  border: 0;
+  padding: 0 12px 0 0;
+}
+
+.allocation-select--small {
+  width: 190px;
+}
+
+.allocation-table-scroll {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.allocation-table {
+  width: 100%;
+  min-width: 920px;
+  border-collapse: collapse;
+}
+
+.allocation-table th,
+.allocation-table td {
+  border-top: 1px solid #dddddd;
+  padding: 14px;
+  vertical-align: middle;
+}
+
+.allocation-table th {
+  color: #111111;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.allocation-table td {
+  color: #444444;
+  font-size: 13px;
+}
+
+.allocation-table td strong,
+.allocation-table td span {
+  display: block;
+}
+
+.allocation-table td strong {
+  color: #111111;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.allocation-table td span {
+  color: #666666;
+  font-size: 11px;
+  margin-top: 3px;
+}
+
+.allocation-status {
+  border: 1px solid #111111;
+  color: #111111;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 26px;
+  min-width: 96px;
+  padding: 0 8px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.allocation-status--transfer-requested,
+.allocation-status--returned {
+  border-color: #d71920;
+  color: #d71920;
+}
+
+.allocation-empty {
+  color: #555555;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 16px 0 0;
+}
+
+@media (max-width: 1040px) {
+  .allocation-actions-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .allocation-summary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .allocation-header,
+  .allocation-history-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .allocation-summary,
+  .allocation-filter-bar {
+    grid-template-columns: 1fr;
+    flex-direction: column;
+  }
+
+  .allocation-search,
+  .allocation-select--small,
+  .allocation-button {
+    width: 100%;
+  }
+}

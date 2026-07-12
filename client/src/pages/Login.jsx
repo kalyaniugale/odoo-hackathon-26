@@ -1,71 +1,118 @@
+import { ArrowRight, LockKeyhole, Mail } from "lucide-react";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 import "./Login.css";
-import { useNavigate } from "react-router-dom";
 
 export default function Login() {
   const navigate = useNavigate();
-  const [form, setForm] = useState({
-    email: "",
-    password: "",
+  const location = useLocation();
+  const { login } = useAuth();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      email: "",
+      password: "",
+    },
   });
 
-  const handleChange = (e) => {
-    setForm({
-      ...form,
-      [e.target.name]: e.target.value,
-    });
+  const onSubmit = async (values) => {
+    setIsSubmitting(true);
+
+    try {
+      await login(values);
+      toast.success("Login successful");
+      navigate(location.state?.from?.pathname || "/dashboard", {
+        replace: true,
+      });
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
- const handleSubmit = (e) => {
-  e.preventDefault();
-
-  console.log(form);
-
-  navigate("/dashboard");
-};
-
   return (
-    <div className="login-container">
-      <div className="login-card">
-        <h1>AssetFlow</h1>
-        <p>Asset Management System</p>
+    <main className="auth-screen login-page">
+      <section className="auth-shell">
+        <div className="auth-brand-panel">
+          <p className="auth-eyebrow">Enterprise Asset Management</p>
+          <h1>AssetFlow</h1>
+          <p className="auth-copy">
+            Control assets, allocations, audits, bookings, and maintenance from
+            a single operational workspace.
+          </p>
+        </div>
 
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label>Email</label>
-
-            <input
-              type="email"
-              name="email"
-              value={form.email}
-              onChange={handleChange}
-              placeholder="Enter your email"
-              required
-            />
+        <div className="auth-form-panel">
+          <div className="auth-form-heading">
+            <p className="auth-kicker">Secure access</p>
+            <h2>Login</h2>
           </div>
 
-          <div className="form-group">
-            <label>Password</label>
+          <form className="auth-form" onSubmit={handleSubmit(onSubmit)}>
+            <label className="auth-field">
+              <span>Email</span>
+              <div className="auth-input-wrap">
+                <Mail size={18} strokeWidth={1.8} />
+                <input
+                  type="email"
+                  autoComplete="email"
+                  placeholder="name@company.com"
+                  {...register("email", {
+                    required: "Email is required",
+                    pattern: {
+                      value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                      message: "Enter a valid email address",
+                    },
+                  })}
+                />
+              </div>
+              {errors.email && (
+                <small className="auth-error">{errors.email.message}</small>
+              )}
+            </label>
 
-            <input
-              type="password"
-              name="password"
-              value={form.password}
-              onChange={handleChange}
-              placeholder="Enter your password"
-              required
-            />
-          </div>
+            <label className="auth-field">
+              <span>Password</span>
+              <div className="auth-input-wrap">
+                <LockKeyhole size={18} strokeWidth={1.8} />
+                <input
+                  type="password"
+                  autoComplete="current-password"
+                  placeholder="Enter your password"
+                  {...register("password", {
+                    required: "Password is required",
+                  })}
+                />
+              </div>
+              {errors.password && (
+                <small className="auth-error">{errors.password.message}</small>
+              )}
+            </label>
 
-          <div className="forgot">
-            <a href="#">Forgot Password?</a>
-          </div>
+            <div className="auth-row">
+              <Link to="/forgot-password">Forgot password?</Link>
+            </div>
 
-          <button type="submit" className="login-btn">
-            Login
-          </button>
-        </form>
-      </div>
-    </div>
+            <button className="auth-submit" type="submit" disabled={isSubmitting}>
+              <span>{isSubmitting ? "Signing in" : "Sign in"}</span>
+              <ArrowRight size={18} strokeWidth={1.8} />
+            </button>
+          </form>
+
+          <p className="auth-switch">
+            New to AssetFlow? <Link to="/signup">Create an account</Link>
+          </p>
+        </div>
+      </section>
+    </main>
   );
 }

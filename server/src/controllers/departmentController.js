@@ -1,6 +1,6 @@
 import asyncHandler from "express-async-handler";
 
-import Department from "../models/department.js";
+import Department from "../models/Department.js";
 import User from "../models/User.js";
 import createNotification from "../utils/createNotification.js";
 import createActivityLog from "../utils/createActivityLog.js";

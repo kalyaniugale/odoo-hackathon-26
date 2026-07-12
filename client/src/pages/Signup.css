@@ -1,0 +1,15 @@
+@import "./Login.css";
+
+.signup-brand-panel h1 {
+  font-size: clamp(54px, 7vw, 104px);
+}
+
+.signup-page .auth-form {
+  gap: 18px;
+}
+
+@media (max-width: 860px) {
+  .signup-brand-panel h1 {
+    font-size: clamp(42px, 13vw, 72px);
+  }
+}

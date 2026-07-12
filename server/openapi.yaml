@@ -1,0 +1,1517 @@
+openapi: 3.0.3
+info:
+  title: AssetFlow API
+  version: 1.0.0
+  description: REST API contract for the AssetFlow Express server.
+servers:
+  - url: http://localhost:5000
+    description: Local development server
+security:
+  - bearerAuth: []
+tags:
+  - name: Root
+  - name: Auth
+  - name: Departments
+  - name: Categories
+  - name: Employees
+  - name: Assets
+  - name: Allocations
+  - name: Bookings
+  - name: Maintenances
+  - name: Audits
+  - name: Dashboard
+  - name: Reports
+  - name: Notifications
+  - name: Activity Logs
+paths:
+  /:
+    get:
+      tags: [Root]
+      security: []
+      summary: API health message
+      responses:
+        "200":
+          description: API running
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessageResponse"
+  /api/auth/signup:
+    post:
+      tags: [Auth]
+      security: []
+      summary: Create an account
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SignupRequest"
+      responses:
+        "201":
+          description: Account created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+  /api/auth/login:
+    post:
+      tags: [Auth]
+      security: []
+      summary: Login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginRequest"
+      responses:
+        "200":
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+  /api/auth/forgot-password:
+    post:
+      tags: [Auth]
+      security: []
+      summary: Send password reset email
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email]
+              properties:
+                email:
+                  type: string
+                  format: email
+      responses:
+        "200":
+          $ref: "#/components/responses/Message"
+  /api/auth/reset-password/{token}:
+    put:
+      tags: [Auth]
+      security: []
+      summary: Reset password
+      parameters:
+        - $ref: "#/components/parameters/TokenParam"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [password]
+              properties:
+                password:
+                  type: string
+                  minLength: 6
+      responses:
+        "200":
+          $ref: "#/components/responses/Message"
+  /api/auth/me:
+    get:
+      tags: [Auth]
+      summary: Current user profile
+      responses:
+        "200":
+          description: Profile
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  user:
+                    $ref: "#/components/schemas/User"
+  /api/departments:
+    get:
+      tags: [Departments]
+      summary: List departments
+      description: Requires Admin.
+      parameters:
+        - $ref: "#/components/parameters/StatusParam"
+      responses:
+        "200":
+          description: Department list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success: { type: boolean }
+                  count: { type: integer }
+                  departments:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Department"
+    post:
+      tags: [Departments]
+      summary: Create department
+      description: Requires Admin.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DepartmentRequest"
+      responses:
+        "201":
+          description: Department created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DepartmentResponse"
+  /api/departments/{id}:
+    get:
+      tags: [Departments]
+      summary: Get department
+      description: Requires Admin.
+      parameters:
+        - $ref: "#/components/parameters/IdParam"
+      responses:
+        "200":
+          description: Department
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DepartmentResponse"
+    put:
+      tags: [Departments]
+      summary: Update department
+      description: Requires Admin.
+      parameters:
+        - $ref: "#/components/parameters/IdParam"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DepartmentUpdateRequest"
+      responses:
+        "200":
+          description: Department updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DepartmentResponse"
+    delete:
+      tags: [Departments]
+      summary: Deactivate department
+      description: Requires Admin. Soft deletes by setting status to Inactive.
+      parameters:
+        - $ref: "#/components/parameters/IdParam"
+      responses:
+        "200":
+          $ref: "#/components/responses/Message"
+  /api/categories:
+    get:
+      tags: [Categories]
+      summary: List categories
+      description: Requires Admin.
+      parameters:
+        - $ref: "#/components/parameters/StatusParam"
+      responses:
+        "200":
+          description: Category list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success: { type: boolean }
+                  count: { type: integer }
+                  categories:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Category"
+    post:
+      tags: [Categories]
+      summary: Create category
+      description: Requires Admin.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CategoryRequest"
+      responses:
+        "201":
+          description: Category created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CategoryResponse"
+  /api/categories/{id}:
+    get:
+      tags: [Categories]
+      summary: Get category
+      description: Requires Admin.
+      parameters:
+        - $ref: "#/components/parameters/IdParam"
+      responses:
+        "200":
+          description: Category
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CategoryResponse"
+    put:
+      tags: [Categories]
+      summary: Update category
+      description: Requires Admin.
+      parameters:
+        - $ref: "#/components/parameters/IdParam"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CategoryUpdateRequest"
+      responses:
+        "200":
+          description: Category updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CategoryResponse"
+    delete:
+      tags: [Categories]
+      summary: Deactivate category
+      description: Requires Admin. Soft deletes by setting status to Inactive.
+      parameters:
+        - $ref: "#/components/parameters/IdParam"
+      responses:
+        "200":
+          $ref: "#/components/responses/Message"
+  /api/employees:
+    get:
+      tags: [Employees]
+      summary: List employees
+      description: Requires Admin.
+      parameters:
+        - $ref: "#/components/parameters/StatusParam"
+      responses:
+        "200":
+          description: Employee list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success: { type: boolean }
+                  count: { type: integer }
+                  employees:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/User"
+  /api/employees/{id}:
+    get:
+      tags: [Employees]
+      summary: Get employee
+      description: Requires Admin.
+      parameters:
+        - $ref: "#/components/parameters/IdParam"
+      responses:
+        "200":
+          description: Employee
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EmployeeResponse"
+    put:
+      tags: [Employees]
+      summary: Update employee
+      description: Requires Admin.
+      parameters:
+        - $ref: "#/components/parameters/IdParam"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EmployeeUpdateRequest"
+      responses:
+        "200":
+          description: Employee updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EmployeeResponse"
+    delete:
+      tags: [Employees]
+      summary: Deactivate employee
+      description: Requires Admin. Soft deletes by setting status to Inactive.
+      parameters:
+        - $ref: "#/components/parameters/IdParam"
+      responses:
+        "200":
+          $ref: "#/components/responses/Message"
+  /api/employees/promote/{id}:
+    put:
+      tags: [Employees]
+      summary: Promote employee
+      description: Requires Admin.
+      parameters:
+        - $ref: "#/components/parameters/IdParam"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [role]
+              properties:
+                role:
+                  type: string
+                  enum: [Department Head, Asset Manager]
+                departmentId:
+                  type: string
+      responses:
+        "200":
+          description: Employee promoted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EmployeeResponse"
+  /api/assets:
+    get:
+      tags: [Assets]
+      summary: List assets
+      parameters:
+        - name: status
+          in: query
+          schema:
+            $ref: "#/components/schemas/AssetStatus"
+        - name: category
+          in: query
+          schema: { type: string }
+        - name: department
+          in: query
+          schema: { type: string }
+        - name: location
+          in: query
+          schema: { type: string }
+        - name: assetTag
+          in: query
+          schema: { type: string }
+        - name: serialNumber
+          in: query
+          schema: { type: string }
+      responses:
+        "200":
+          description: Asset list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success: { type: boolean }
+                  count: { type: integer }
+                  assets:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Asset"
+    post:
+      tags: [Assets]
+      summary: Create asset
+      description: Requires Asset Manager. Uses multipart/form-data.
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/AssetCreateMultipart"
+      responses:
+        "201":
+          description: Asset created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AssetResponse"
+  /api/assets/{id}:
+    get:
+      tags: [Assets]
+      summary: Get asset details
+      parameters:
+        - $ref: "#/components/parameters/IdParam"
+      responses:
+        "200":
+          description: Asset details
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success: { type: boolean }
+                  asset:
+                    $ref: "#/components/schemas/Asset"
+                  allocationHistory:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Allocation"
+                  maintenanceHistory:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Maintenance"
+    put:
+      tags: [Assets]
+      summary: Update asset
+      description: Requires Asset Manager. Uses multipart/form-data.
+      parameters:
+        - $ref: "#/components/parameters/IdParam"
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/AssetCreateMultipart"
+      responses:
+        "200":
+          description: Asset updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AssetResponse"
+    delete:
+      tags: [Assets]
+      summary: Dispose asset
+      description: Requires Asset Manager. Soft deletes by setting status to Disposed.
+      parameters:
+        - $ref: "#/components/parameters/IdParam"
+      responses:
+        "200":
+          $ref: "#/components/responses/Message"
+  /api/allocations:
+    get:
+      tags: [Allocations]
+      summary: List allocations
+      description: Requires Admin or Asset Manager.
+      parameters:
+        - name: status
+          in: query
+          schema:
+            oneOf:
+              - $ref: "#/components/schemas/AllocationStatus"
+              - type: string
+                enum: [All]
+      responses:
+        "200":
+          description: Allocation list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success: { type: boolean }
+                  count: { type: integer }
+                  allocations:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Allocation"
+    post:
+      tags: [Allocations]
+      summary: Allocate asset
+      description: Requires Asset Manager.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AllocationCreateRequest"
+      responses:
+        "201":
+          description: Allocation created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AllocationResponse"
+  /api/allocations/{id}:
+    get:
+      tags: [Allocations]
+      summary: Get allocation
+      description: Requires Admin or Asset Manager.
+      parameters:
+        - $ref: "#/components/parameters/IdParam"
+      responses:
+        "200":
+          description: Allocation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AllocationResponse"
+  /api/allocations/return/{id}:
+    put:
+      tags: [Allocations]
+      summary: Return allocated asset
+      description: Requires Asset Manager.
+      parameters:
+        - $ref: "#/components/parameters/IdParam"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                returnCondition: { type: string }
+                notes: { type: string }
+      responses:
+        "200":
+          description: Asset returned
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AllocationResponse"
+  /api/allocations/request-transfer/{id}:
+    put:
+      tags: [Allocations]
+      summary: Request transfer
+      description: Requires Employee.
+      parameters:
+        - $ref: "#/components/parameters/IdParam"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [transferTo]
+              properties:
+                transferTo: { type: string }
+      responses:
+        "200":
+          description: Transfer requested
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AllocationResponse"
+  /api/allocations/approve-transfer/{id}:
+    put:
+      tags: [Allocations]
+      summary: Approve transfer
+      description: Requires Asset Manager or Department Head.
+      parameters:
+        - $ref: "#/components/parameters/IdParam"
+      responses:
+        "200":
+          description: Transfer approved
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AllocationResponse"
+  /api/bookings:
+    get:
+      tags: [Bookings]
+      summary: List bookings
+      parameters:
+        - name: status
+          in: query
+          schema:
+            oneOf:
+              - $ref: "#/components/schemas/BookingStatus"
+              - type: string
+                enum: [All]
+      responses:
+        "200":
+          description: Booking list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success: { type: boolean }
+                  count: { type: integer }
+                  bookings:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Booking"
+    post:
+      tags: [Bookings]
+      summary: Create booking
+      description: Requires Department Head or Employee.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BookingCreateRequest"
+      responses:
+        "201":
+          description: Booking created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BookingResponse"
+  /api/bookings/{id}:
+    get:
+      tags: [Bookings]
+      summary: Get booking
+      parameters:
+        - $ref: "#/components/parameters/IdParam"
+      responses:
+        "200":
+          description: Booking
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BookingResponse"
+  /api/bookings/cancel/{id}:
+    put:
+      tags: [Bookings]
+      summary: Cancel booking
+      description: Requires Department Head or Employee.
+      parameters:
+        - $ref: "#/components/parameters/IdParam"
+      responses:
+        "200":
+          description: Booking cancelled
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BookingResponse"
+  /api/bookings/reschedule/{id}:
+    put:
+      tags: [Bookings]
+      summary: Reschedule booking
+      description: Requires Department Head or Employee.
+      parameters:
+        - $ref: "#/components/parameters/IdParam"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [startTime, endTime]
+              properties:
+                startTime: { type: string, format: date-time }
+                endTime: { type: string, format: date-time }
+      responses:
+        "200":
+          description: Booking rescheduled
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BookingResponse"
+  /api/maintenances:
+    get:
+      tags: [Maintenances]
+      summary: List maintenance requests
+      description: Requires Admin, Asset Manager, or Department Head.
+      parameters:
+        - name: status
+          in: query
+          schema:
+            oneOf:
+              - $ref: "#/components/schemas/MaintenanceStatus"
+              - type: string
+                enum: [All]
+      responses:
+        "200":
+          description: Maintenance list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success: { type: boolean }
+                  count: { type: integer }
+                  maintenances:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Maintenance"
+    post:
+      tags: [Maintenances]
+      summary: Create maintenance request
+      description: Requires Employee, Department Head, or Asset Manager. Uses multipart/form-data.
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/MaintenanceCreateMultipart"
+      responses:
+        "201":
+          description: Maintenance created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MaintenanceResponse"
+  /api/maintenances/{id}:
+    get:
+      tags: [Maintenances]
+      summary: Get maintenance request
+      parameters:
+        - $ref: "#/components/parameters/IdParam"
+      responses:
+        "200":
+          description: Maintenance
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MaintenanceResponse"
+  /api/maintenances/approve/{id}:
+    put:
+      tags: [Maintenances]
+      summary: Approve maintenance request
+      description: Requires Asset Manager.
+      parameters:
+        - $ref: "#/components/parameters/IdParam"
+      responses:
+        "200":
+          description: Maintenance approved
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MaintenanceResponse"
+  /api/maintenances/reject/{id}:
+    put:
+      tags: [Maintenances]
+      summary: Reject maintenance request
+      description: Requires Asset Manager.
+      parameters:
+        - $ref: "#/components/parameters/IdParam"
+      responses:
+        "200":
+          description: Maintenance rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MaintenanceResponse"
+  /api/maintenances/start/{id}:
+    put:
+      tags: [Maintenances]
+      summary: Start maintenance
+      description: Requires Asset Manager.
+      parameters:
+        - $ref: "#/components/parameters/IdParam"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                technician: { type: string }
+      responses:
+        "200":
+          description: Maintenance started
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MaintenanceResponse"
+  /api/maintenances/resolve/{id}:
+    put:
+      tags: [Maintenances]
+      summary: Resolve maintenance
+      description: Requires Asset Manager.
+      parameters:
+        - $ref: "#/components/parameters/IdParam"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                resolution: { type: string }
+                notes: { type: string }
+      responses:
+        "200":
+          description: Maintenance resolved
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MaintenanceResponse"
+  /api/audits:
+    get:
+      tags: [Audits]
+      summary: List audits
+      description: Requires Admin or Asset Manager.
+      parameters:
+        - name: status
+          in: query
+          schema:
+            oneOf:
+              - $ref: "#/components/schemas/AuditStatus"
+              - type: string
+                enum: [All]
+      responses:
+        "200":
+          description: Audit list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success: { type: boolean }
+                  count: { type: integer }
+                  audits:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Audit"
+    post:
+      tags: [Audits]
+      summary: Create audit
+      description: Requires Admin.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AuditCreateRequest"
+      responses:
+        "201":
+          description: Audit created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuditResponse"
+  /api/audits/{id}:
+    get:
+      tags: [Audits]
+      summary: Get audit
+      description: Requires Admin or Asset Manager.
+      parameters:
+        - $ref: "#/components/parameters/IdParam"
+      responses:
+        "200":
+          description: Audit
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuditResponse"
+  /api/audits/verify/{id}:
+    put:
+      tags: [Audits]
+      summary: Verify an asset inside an audit
+      description: Requires Admin or Asset Manager and the controller requires the current user to be assigned as an auditor.
+      parameters:
+        - $ref: "#/components/parameters/IdParam"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [assetId, status]
+              properties:
+                assetId: { type: string }
+                status:
+                  type: string
+                  enum: [Verified, Missing, Damaged]
+                remarks: { type: string }
+      responses:
+        "200":
+          description: Audit asset verified
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuditResponse"
+  /api/audits/close/{id}:
+    put:
+      tags: [Audits]
+      summary: Close audit
+      description: Requires Admin.
+      parameters:
+        - $ref: "#/components/parameters/IdParam"
+      responses:
+        "200":
+          description: Audit closed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuditResponse"
+  /api/dashboard:
+    get:
+      tags: [Dashboard]
+      summary: Role-based dashboard metrics
+      responses:
+        "200":
+          description: Dashboard metrics
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success: { type: boolean }
+                  role:
+                    $ref: "#/components/schemas/UserRole"
+                  dashboard:
+                    type: object
+                    additionalProperties:
+                      type: integer
+  /api/reports/dashboard:
+    get:
+      tags: [Reports]
+      summary: Report dashboard
+      description: Requires Admin.
+      responses:
+        "200":
+          description: Report dashboard
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success: { type: boolean }
+                  summary:
+                    type: object
+                    additionalProperties:
+                      type: integer
+                  mostUsedAssets:
+                    type: array
+                    items: { type: object }
+                  idleAssets:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Asset"
+                  maintenanceFrequency:
+                    type: array
+                    items: { type: object }
+                  dueMaintenance:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Asset"
+                  nearingRetirement:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Asset"
+                  departmentSummary:
+                    type: array
+                    items: { type: object }
+                  bookingHeatmap:
+                    type: array
+                    items: { type: object }
+  /api/reports/export:
+    get:
+      tags: [Reports]
+      summary: Export asset report CSV
+      description: Requires Admin.
+      responses:
+        "200":
+          description: CSV file
+          content:
+            text/csv:
+              schema:
+                type: string
+                format: binary
+  /api/notifications:
+    get:
+      tags: [Notifications]
+      summary: List current user notifications
+      responses:
+        "200":
+          description: Notification list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success: { type: boolean }
+                  count: { type: integer }
+                  notifications:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Notification"
+  /api/notifications/{id}/read:
+    put:
+      tags: [Notifications]
+      summary: Mark notification as read
+      parameters:
+        - $ref: "#/components/parameters/IdParam"
+      responses:
+        "200":
+          description: Notification updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success: { type: boolean }
+                  message: { type: string }
+                  notification:
+                    $ref: "#/components/schemas/Notification"
+  /api/notifications/{id}:
+    delete:
+      tags: [Notifications]
+      summary: Delete notification
+      parameters:
+        - $ref: "#/components/parameters/IdParam"
+      responses:
+        "200":
+          $ref: "#/components/responses/Message"
+  /api/activity-logs:
+    get:
+      tags: [Activity Logs]
+      summary: List activity logs
+      description: Requires Admin.
+      responses:
+        "200":
+          description: Activity logs
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success: { type: boolean }
+                  count: { type: integer }
+                  logs:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/ActivityLog"
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  parameters:
+    IdParam:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+    TokenParam:
+      name: token
+      in: path
+      required: true
+      schema:
+        type: string
+    StatusParam:
+      name: status
+      in: query
+      required: false
+      schema:
+        type: string
+        enum: [Active, Inactive, All]
+  responses:
+    Message:
+      description: Message response
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/MessageResponse"
+  schemas:
+    MessageResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+    ErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        message:
+          type: string
+    ObjectId:
+      type: string
+      example: 64b6f50a0f2d9f0012345678
+    UserRole:
+      type: string
+      enum: [Admin, Asset Manager, Department Head, Employee]
+    ActiveStatus:
+      type: string
+      enum: [Active, Inactive]
+    AssetCondition:
+      type: string
+      enum: [Excellent, Good, Fair, Poor, Damaged]
+    AssetStatus:
+      type: string
+      enum: [Available, Allocated, Reserved, Under Maintenance, Lost, Retired, Disposed]
+    AllocationStatus:
+      type: string
+      enum: [Allocated, Transfer Requested, Transferred, Returned]
+    BookingStatus:
+      type: string
+      enum: [Upcoming, Ongoing, Completed, Cancelled]
+    MaintenancePriority:
+      type: string
+      enum: [Low, Medium, High]
+    MaintenanceStatus:
+      type: string
+      enum: [Pending, Approved, Rejected, In Progress, Resolved]
+    AuditStatus:
+      type: string
+      enum: [Open, Closed]
+    AuditAssetStatus:
+      type: string
+      enum: [Verified, Missing, Damaged]
+    NotificationType:
+      type: string
+      enum: [Allocation, Transfer, Booking, Maintenance, Audit, Reminder]
+    SignupRequest:
+      type: object
+      required: [name, email, password]
+      properties:
+        name: { type: string }
+        email: { type: string, format: email }
+        password: { type: string, minLength: 6 }
+    LoginRequest:
+      type: object
+      required: [email, password]
+      properties:
+        email: { type: string, format: email }
+        password: { type: string }
+    AuthUser:
+      type: object
+      properties:
+        id: { type: string }
+        name: { type: string }
+        email: { type: string }
+        role:
+          $ref: "#/components/schemas/UserRole"
+        department:
+          nullable: true
+          oneOf:
+            - type: string
+            - $ref: "#/components/schemas/Department"
+    AuthResponse:
+      type: object
+      properties:
+        success: { type: boolean }
+        message: { type: string }
+        token: { type: string }
+        user:
+          $ref: "#/components/schemas/AuthUser"
+    User:
+      type: object
+      properties:
+        _id:
+          $ref: "#/components/schemas/ObjectId"
+        name: { type: string }
+        email: { type: string, format: email }
+        role:
+          $ref: "#/components/schemas/UserRole"
+        department:
+          nullable: true
+        status:
+          $ref: "#/components/schemas/ActiveStatus"
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+    Department:
+      type: object
+      properties:
+        _id:
+          $ref: "#/components/schemas/ObjectId"
+        name: { type: string }
+        departmentHead:
+          nullable: true
+        parentDepartment:
+          nullable: true
+        status:
+          $ref: "#/components/schemas/ActiveStatus"
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+    DepartmentRequest:
+      type: object
+      required: [name]
+      properties:
+        name: { type: string }
+        parentDepartment: { type: string, nullable: true }
+    DepartmentUpdateRequest:
+      allOf:
+        - $ref: "#/components/schemas/DepartmentRequest"
+        - type: object
+          properties:
+            departmentHead: { type: string, nullable: true }
+            status:
+              $ref: "#/components/schemas/ActiveStatus"
+    DepartmentResponse:
+      type: object
+      properties:
+        success: { type: boolean }
+        message: { type: string }
+        department:
+          $ref: "#/components/schemas/Department"
+    Category:
+      type: object
+      properties:
+        _id:
+          $ref: "#/components/schemas/ObjectId"
+        name: { type: string }
+        description: { type: string }
+        warrantyPeriod: { type: number }
+        status:
+          $ref: "#/components/schemas/ActiveStatus"
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+    CategoryRequest:
+      type: object
+      required: [name]
+      properties:
+        name: { type: string }
+        description: { type: string }
+        warrantyPeriod: { type: number }
+    CategoryUpdateRequest:
+      allOf:
+        - $ref: "#/components/schemas/CategoryRequest"
+        - type: object
+          properties:
+            status:
+              $ref: "#/components/schemas/ActiveStatus"
+    CategoryResponse:
+      type: object
+      properties:
+        success: { type: boolean }
+        message: { type: string }
+        category:
+          $ref: "#/components/schemas/Category"
+    EmployeeUpdateRequest:
+      type: object
+      properties:
+        name: { type: string }
+        email: { type: string, format: email }
+        department: { type: string, nullable: true }
+        status:
+          $ref: "#/components/schemas/ActiveStatus"
+    EmployeeResponse:
+      type: object
+      properties:
+        success: { type: boolean }
+        message: { type: string }
+        employee:
+          $ref: "#/components/schemas/User"
+    Asset:
+      type: object
+      properties:
+        _id:
+          $ref: "#/components/schemas/ObjectId"
+        assetTag: { type: string }
+        name: { type: string }
+        category:
+          nullable: true
+        serialNumber: { type: string }
+        department:
+          nullable: true
+        location: { type: string }
+        acquisitionDate: { type: string, format: date-time, nullable: true }
+        nextMaintenanceDate: { type: string, format: date-time, nullable: true }
+        retirementDate: { type: string, format: date-time, nullable: true }
+        acquisitionCost: { type: number }
+        condition:
+          $ref: "#/components/schemas/AssetCondition"
+        status:
+          $ref: "#/components/schemas/AssetStatus"
+        shared: { type: boolean }
+        image: { type: string }
+        documents:
+          type: array
+          items: { type: string }
+        createdBy:
+          nullable: true
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+    AssetCreateMultipart:
+      type: object
+      required: [name, category, location]
+      properties:
+        name: { type: string }
+        category: { type: string }
+        serialNumber: { type: string }
+        department: { type: string }
+        location: { type: string }
+        acquisitionDate: { type: string, format: date }
+        acquisitionCost: { type: number }
+        condition:
+          $ref: "#/components/schemas/AssetCondition"
+        shared: { type: boolean }
+        image:
+          type: string
+          format: binary
+        documents:
+          type: array
+          items:
+            type: string
+            format: binary
+    AssetResponse:
+      type: object
+      properties:
+        success: { type: boolean }
+        message: { type: string }
+        asset:
+          $ref: "#/components/schemas/Asset"
+    Allocation:
+      type: object
+      properties:
+        _id:
+          $ref: "#/components/schemas/ObjectId"
+        asset: {}
+        allocatedTo: {}
+        allocatedBy: {}
+        expectedReturnDate: { type: string, format: date-time, nullable: true }
+        actualReturnDate: { type: string, format: date-time, nullable: true }
+        transferRequested: { type: boolean }
+        transferTo:
+          nullable: true
+        approvedBy:
+          nullable: true
+        status:
+          $ref: "#/components/schemas/AllocationStatus"
+        returnCondition: { type: string }
+        notes: { type: string }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+    AllocationCreateRequest:
+      type: object
+      required: [asset, allocatedTo]
+      properties:
+        asset: { type: string }
+        allocatedTo: { type: string }
+        expectedReturnDate: { type: string, format: date-time }
+        notes: { type: string }
+    AllocationResponse:
+      type: object
+      properties:
+        success: { type: boolean }
+        message: { type: string }
+        allocation:
+          $ref: "#/components/schemas/Allocation"
+    Booking:
+      type: object
+      properties:
+        _id:
+          $ref: "#/components/schemas/ObjectId"
+        asset: {}
+        bookedBy: {}
+        startTime: { type: string, format: date-time }
+        endTime: { type: string, format: date-time }
+        purpose: { type: string }
+        status:
+          $ref: "#/components/schemas/BookingStatus"
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+    BookingCreateRequest:
+      type: object
+      required: [asset, startTime, endTime]
+      properties:
+        asset: { type: string }
+        startTime: { type: string, format: date-time }
+        endTime: { type: string, format: date-time }
+        purpose: { type: string }
+    BookingResponse:
+      type: object
+      properties:
+        success: { type: boolean }
+        message: { type: string }
+        booking:
+          $ref: "#/components/schemas/Booking"
+    Maintenance:
+      type: object
+      properties:
+        _id:
+          $ref: "#/components/schemas/ObjectId"
+        asset: {}
+        raisedBy: {}
+        approvedBy:
+          nullable: true
+        technician: { type: string }
+        issue: { type: string }
+        priority:
+          $ref: "#/components/schemas/MaintenancePriority"
+        image: { type: string }
+        status:
+          $ref: "#/components/schemas/MaintenanceStatus"
+        resolution: { type: string }
+        notes: { type: string }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+    MaintenanceCreateMultipart:
+      type: object
+      required: [asset, issue]
+      properties:
+        asset: { type: string }
+        issue: { type: string }
+        priority:
+          $ref: "#/components/schemas/MaintenancePriority"
+        notes: { type: string }
+        image:
+          type: string
+          format: binary
+    MaintenanceResponse:
+      type: object
+      properties:
+        success: { type: boolean }
+        message: { type: string }
+        maintenance:
+          $ref: "#/components/schemas/Maintenance"
+    AuditAsset:
+      type: object
+      properties:
+        asset: {}
+        status:
+          $ref: "#/components/schemas/AuditAssetStatus"
+        remarks: { type: string }
+    Audit:
+      type: object
+      properties:
+        _id:
+          $ref: "#/components/schemas/ObjectId"
+        department: {}
+        location: { type: string }
+        auditors:
+          type: array
+          items: {}
+        assets:
+          type: array
+          items:
+            $ref: "#/components/schemas/AuditAsset"
+        startDate: { type: string, format: date-time }
+        endDate: { type: string, format: date-time }
+        status:
+          $ref: "#/components/schemas/AuditStatus"
+        discrepancies: { type: integer }
+        createdBy: {}
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+    AuditCreateRequest:
+      type: object
+      required: [department, startDate, endDate]
+      properties:
+        department: { type: string }
+        location: { type: string }
+        auditors:
+          type: array
+          items:
+            type: string
+        startDate: { type: string, format: date-time }
+        endDate: { type: string, format: date-time }
+    AuditResponse:
+      type: object
+      properties:
+        success: { type: boolean }
+        message: { type: string }
+        audit:
+          $ref: "#/components/schemas/Audit"
+    Notification:
+      type: object
+      properties:
+        _id:
+          $ref: "#/components/schemas/ObjectId"
+        user:
+          $ref: "#/components/schemas/ObjectId"
+        title: { type: string }
+        message: { type: string }
+        type:
+          $ref: "#/components/schemas/NotificationType"
+        link: { type: string }
+        isRead: { type: boolean }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+    ActivityLog:
+      type: object
+      properties:
+        _id:
+          $ref: "#/components/schemas/ObjectId"
+        user: {}
+        action: { type: string }
+        module:
+          type: string
+          enum: [Authentication, Department, Category, Employee, Asset, Allocation, Booking, Maintenance, Audit]
+        description: { type: string }
+        ipAddress: { type: string }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
