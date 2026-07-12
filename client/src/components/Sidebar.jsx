@@ -27,17 +27,17 @@ export default function Sidebar() {
           Allocation & Transfer
         </NavLink>
 
-        <NavLink to="/booking">
-          Resource Booking
-        </NavLink>
+        <NavLink to="/resource-booking">
+    Resource Booking
+</NavLink>
 
         <NavLink to="/maintenance">
           Maintenance
         </NavLink>
 
-        <NavLink to="/audit">
-          Audit
-        </NavLink>
+       <NavLink to="/audit">
+    Audit
+</NavLink>
 
         <NavLink to="/reports">
           Reports

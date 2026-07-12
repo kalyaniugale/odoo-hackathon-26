@@ -1,52 +1,65 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { useState } from "react";
 import "./Assets.css";
+import Sidebar from "../components/Sidebar";
 
 export default function Assets() {
-  const [assets, setAssets] = useState([]);
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("");
   const [status, setStatus] = useState("");
   const [department, setDepartment] = useState("");
 
-  const token = localStorage.getItem("token");
-
-  useEffect(() => {
-    fetchAssets();
-  }, []);
-
-  const fetchAssets = async () => {
-    try {
-      const { data } = await axios.get(
-        "http://localhost:5000/api/assets",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      setAssets(data.assets || []);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  const assets = [
+    {
+      id: 1,
+      assetTag: "AF-001",
+      name: "Dell Latitude 5420",
+      category: "Laptop",
+      status: "Available",
+      location: "IT Department",
+      department: "IT",
+    },
+    {
+      id: 2,
+      assetTag: "AF-002",
+      name: "HP LaserJet Pro",
+      category: "Printer",
+      status: "Allocated",
+      location: "Admin Office",
+      department: "Administration",
+    },
+    {
+      id: 3,
+      assetTag: "AF-003",
+      name: "Epson Projector",
+      category: "Projector",
+      status: "Maintenance",
+      location: "Conference Hall",
+      department: "Training",
+    },
+    {
+      id: 4,
+      assetTag: "AF-004",
+      name: "MacBook Air",
+      category: "Laptop",
+      status: "Available",
+      location: "Development",
+      department: "Engineering",
+    },
+  ];
 
   const filteredAssets = assets.filter((asset) => {
     const matchesSearch =
-      asset.assetTag?.toLowerCase().includes(search.toLowerCase()) ||
-      asset.name?.toLowerCase().includes(search.toLowerCase()) ||
-      asset.serialNumber?.toLowerCase().includes(search.toLowerCase());
+      asset.assetTag.toLowerCase().includes(search.toLowerCase()) ||
+      asset.name.toLowerCase().includes(search.toLowerCase());
 
     const matchesCategory =
-      category === "" || asset.category?.name === category;
+      category === "" || asset.category === category;
 
     const matchesStatus =
       status === "" || asset.status === status;
 
     const matchesDepartment =
-      department === "" ||
-      asset.department?.name === department;
+      department === "" || asset.department === department;
 
     return (
       matchesSearch &&
@@ -67,13 +80,13 @@ export default function Assets() {
 
           <input
             type="text"
-            placeholder="Search by Tag, Model or QR"
+            placeholder="Search Asset..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
 
-          <button className="register-btn">
-            Register Asset
+          <button className="success-btn">
+            + Register Asset
           </button>
 
         </div>
@@ -88,11 +101,9 @@ export default function Assets() {
         >
           <option value="">Category</option>
 
-          {[...new Set(assets.map(a => a.category?.name))]
-            .filter(Boolean)
-            .map((cat) => (
-              <option key={cat}>{cat}</option>
-            ))}
+          {[...new Set(assets.map((a) => a.category))].map((cat) => (
+            <option key={cat}>{cat}</option>
+          ))}
 
         </select>
 
@@ -112,11 +123,9 @@ export default function Assets() {
         >
           <option value="">Department</option>
 
-          {[...new Set(assets.map(a => a.department?.name))]
-            .filter(Boolean)
-            .map((dept) => (
-              <option key={dept}>{dept}</option>
-            ))}
+          {[...new Set(assets.map((a) => a.department))].map((dept) => (
+            <option key={dept}>{dept}</option>
+          ))}
 
         </select>
 
@@ -129,8 +138,8 @@ export default function Assets() {
           <thead>
 
             <tr>
-              <th>Tag</th>
-              <th>Brand</th>
+              <th>Asset Tag</th>
+              <th>Asset Name</th>
               <th>Category</th>
               <th>Status</th>
               <th>Location</th>
@@ -141,39 +150,33 @@ export default function Assets() {
           <tbody>
 
             {filteredAssets.length === 0 ? (
-
               <tr>
                 <td colSpan="5" className="empty">
                   No Assets Found
                 </td>
               </tr>
-
             ) : (
-
               filteredAssets.map((asset) => (
-
-                <tr key={asset._id}>
+                <tr key={asset.id}>
 
                   <td>{asset.assetTag}</td>
 
                   <td>{asset.name}</td>
 
-                  <td>{asset.category?.name}</td>
+                  <td>{asset.category}</td>
 
                   <td>
-
-                    <span className={`status ${asset.status.toLowerCase()}`}>
+                    <span
+                      className={`status ${asset.status.toLowerCase()}`}
+                    >
                       {asset.status}
                     </span>
-
                   </td>
 
                   <td>{asset.location}</td>
 
                 </tr>
-
               ))
-
             )}
 
           </tbody>

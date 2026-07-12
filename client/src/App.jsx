@@ -1,9 +1,15 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Login from "./pages/Login";
+
 import Dashboard from "./pages/Dashboard";
 import OrganizationSetup from "./pages/OrganizationSetup";
-import Reports from "./pages/Reports";
+import Assets from "./pages/Assets";
+import ResourceBooking from "./pages/ResourceBooking";
+import Audit from "./pages/Audit";
+
+import AdminLayout from "./layouts/AdminLayout";
+
 import AdminLayout from "./layouts/AdminLayout";
 
 function App() {
