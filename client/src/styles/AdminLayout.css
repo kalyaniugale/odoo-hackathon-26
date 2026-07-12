@@ -1,7 +1,7 @@
 .admin-layout{
     display:flex;
     min-height:100vh;
-    background:var(--background);
+    background:#f5f7fb;
 }
 
 .admin-content{
