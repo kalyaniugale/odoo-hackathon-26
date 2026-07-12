@@ -1,7 +1,9 @@
 import { useState } from "react";
 import "./Login.css";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
+  const navigate = useNavigate();
   const [form, setForm] = useState({
     email: "",
     password: "",
@@ -14,13 +16,13 @@ export default function Login() {
     });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+ const handleSubmit = (e) => {
+  e.preventDefault();
 
-    console.log(form);
+  console.log(form);
 
-    alert("Frontend Login Successful");
-  };
+  navigate("/dashboard");
+};
 
   return (
     <div className="login-container">
