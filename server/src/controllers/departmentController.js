@@ -1,6 +1,6 @@
 import asyncHandler from "express-async-handler";
 
-import Department from "../models/Department.js";
+import Department from "../models/department.js";
 import User from "../models/User.js";
 
 export const createDepartment = asyncHandler(async (req, res) => {

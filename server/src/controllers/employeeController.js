@@ -1,7 +1,7 @@
 import asyncHandler from "express-async-handler";
 
 import User from "../models/User.js";
-import Department from "../models/Department.js";
+import Department from "../models/department.js";
 
 export const getEmployees = asyncHandler(async (req, res) => {
     const { status } = req.query;

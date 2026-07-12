@@ -2,7 +2,7 @@ import asyncHandler from "express-async-handler";
 
 import Audit from "../models/Audit.js";
 import Asset from "../models/Asset.js";
-import Department from "../models/Department.js";
+import Department from "../models/department.js";
 
 export const createAudit = asyncHandler(async (req, res) => {
     const {
@@ -126,7 +126,7 @@ export const verifyAsset = asyncHandler(async (req, res) => {
     const auditAsset = audit.assets.find(
         item => item.asset.toString() === assetId
     );
-    
+
     if (!auditAsset) {
         res.status(404);
         throw new Error("Asset not found in this audit");
