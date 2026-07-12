@@ -1,0 +1,63 @@
+.booking-page{
+    width:100%;
+}
+
+.booking-page h1{
+    margin-bottom:30px;
+}
+
+.resource-box{
+    margin-bottom:30px;
+}
+
+.resource-box label{
+    display:block;
+    margin-bottom:8px;
+    font-weight:600;
+}
+
+.resource-box input{
+    width:100%;
+    padding:14px;
+    border:1px solid var(--border);
+    border-radius:10px;
+    background:white;
+}
+
+.timeline{
+    margin-bottom:35px;
+}
+
+.slot-row{
+    display:flex;
+    gap:20px;
+    align-items:center;
+    margin-bottom:18px;
+}
+
+.time{
+    width:70px;
+    font-weight:600;
+}
+
+.slot{
+    flex:1;
+    padding:14px 18px;
+    border-radius:10px;
+}
+
+.booked{
+    background:#dbeafe;
+    border-left:5px solid #2563eb;
+}
+
+.conflict{
+    background:#fee2e2;
+    border-left:5px solid #dc2626;
+}
+
+.empty{
+    background:#f9fafb;
+    border:1px dashed #d1d5db;
+    height:55px;
+}

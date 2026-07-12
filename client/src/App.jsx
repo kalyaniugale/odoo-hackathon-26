@@ -1,8 +1,12 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Login from "./pages/Login";
+
 import Dashboard from "./pages/Dashboard";
 import OrganizationSetup from "./pages/OrganizationSetup";
+import Assets from "./pages/Assets";
+import ResourceBooking from "./pages/ResourceBooking";
+import Audit from "./pages/Audit";
 
 import AdminLayout from "./layouts/AdminLayout";
 
@@ -25,6 +29,21 @@ function App() {
           <Route
             path="/organization-setup"
             element={<OrganizationSetup />}
+          />
+
+          <Route
+            path="/assets"
+            element={<Assets />}
+          />
+
+          <Route
+            path="/resource-booking"
+            element={<ResourceBooking />}
+          />
+
+          <Route
+            path="/audit"
+            element={<Audit />}
           />
 
         </Route>
