@@ -2,15 +2,12 @@ import express from "express";
 import cors from "cors";
 import morgan from "morgan";
 
-import authRoutes from "./routes/authRoutes.js";
-import departmentRoutes from "./routes/departmentRoutes.js";
-
 import notFound from "./middleware/notFound.js";
 import errorHandler from "./middleware/errorHandler.js";
 import authRoutes from "./routes/authRoutes.js";
 import departmentRoutes from "./routes/departmentRoutes.js";
 import categoryRoutes from "./routes/categoryRoutes.js";
-
+import employeeRoutes from "./routes/employeeRoutes.js";
 const app = express();
 
 app.use(cors());
@@ -28,7 +25,7 @@ app.get("/", (req, res) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/departments", departmentRoutes);
 app.use("/api/categories", categoryRoutes);
-
+app.use("/api/employees", employeeRoutes);
 app.use(notFound);
 app.use(errorHandler);
 
