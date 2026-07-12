@@ -23,6 +23,7 @@ button{
 input,
 select,
 textarea{
-    font-family:inherit;
-    outline:none;
+    background:#fff;
+    color:var(--text);
+    border:1px solid var(--border);
 }
